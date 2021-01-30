@@ -17,7 +17,8 @@ struct node* deleteFirst(struct linkedList *head) {
     struct node* temp = head -> first;
     head->first = temp -> next;
     head -> count--;      
-    // return freed memory
+    free(temp);
+    // return pointer to freed memory
     return temp;
 }
 
@@ -49,12 +50,14 @@ struct node * delete (struct linkedList * head, int ele) {
 
         if ((head->first)->element == ele) {
             head->first = (head->first)->next;
+            free(ptr_prev);
             return ptr_prev;
         }
         // this stratagy can't check the first node. the if condition above does.
         for(; ptr != NULL; ptr = ptr -> next, ptr_prev = ptr_prev->next) {
             if (ptr -> element == ele) {
                 ptr_prev -> next = ptr -> next;
+                free(ptr);
                 return ptr;
             }
         }
