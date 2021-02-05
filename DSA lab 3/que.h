@@ -23,18 +23,20 @@ struct Queue* newQ();
 
 // isEmptyQ returns 0 if length of q is 0.
 // non-zero value otherwise.
-int isEmptyQ(Queue* q);
+int isEmptyQ(struct Queue*);
 
 // delQ deletes a element from the front of the Queue.
 // returns the pointer to modified Queue
-struct Queue* delQ(Queue* q);
+struct Queue* delQ(struct Queue*);
 
-// front returns the pointer to the first element in the Queue.
-struct Qnode* front(Queue* q);
+// front returns the element in the first element in the Queue.
+int front(struct Queue*);
 
 // addQ adds a new element to the back of the Queue.
 // returns the pointer to the modified Queue.
-struct Queue* addQ(Queue* q);
+struct Queue* addQ(struct Queue*, int elem);
 
 // lengthQ return the length of the Queue.
-int lengthQ(Queue* q);
+int lengthQ(struct Queue* q);
+
+void printQ(struct Queue* q);

@@ -38,9 +38,15 @@ int front(struct Queue* q) {
 struct Queue* addQ(struct Queue* q, int elem) {
     struct Qnode* new_node = (struct Qnode*)malloc(sizeof(struct Qnode));
     new_node -> elem = elem;
-    ( q -> rear ) -> next = new_node;
-    q -> rear = new_node;
     new_node -> next = NULL;
+    // initialise if array is empty.
+    if (q->front == NULL)
+        q->front = new_node;
+    else
+        q->rear->next = new_node;
+    
+    // add new node to end of queue.
+    ( q -> rear ) = new_node;
     return q;
 }
 // lengthQ return the length of the Queue.
@@ -52,4 +58,18 @@ int lengthQ(struct Queue* q) {
         temp = temp -> next;
     }
     return len;
+}
+
+void printQ(struct Queue* q) {
+    printf("Queue: ");
+    struct Qnode* temp = q->front;
+    while(temp != NULL) {
+        printf("%3d|", temp->elem);
+        temp = temp->next;
+    }
+    printf("\n");
+    if (q->front==NULL)
+        printf("front:%p, rear:%p\n", q->front, q->rear);
+    else 
+        printf("front:%d, rear:%d\n", q->front->elem, q->front->elem);
 }

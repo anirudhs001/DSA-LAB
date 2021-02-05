@@ -3,8 +3,9 @@
 #include"que.h"
 
 // MutliQ Abstract Datatype 
+// Qarr is an array of Queues. each element in Qarr is a pointer to a Q
 struct MultiQ {
-    struct Queue* Qarr;
+    struct Queue** Qarr;
     int num;
 };
 
@@ -25,11 +26,11 @@ struct MultiQ* createMQ(int num);
 // if no Queue of matching priority is found in the MultiQ, it initializes an empty 
 // Queue with the Task t.
 // returns a pointer to the modified Multi Queue.
-struct MultiQ* addMQ(struct MultiQ* mq, Task* t);
+struct MultiQ* addMQ(struct MultiQ* mq, struct Task* t);
 
-// nextMQ finds the task in the front from the Queue with the highest priority.
-// returns the pointer to this task.
-struct Task* nextMQ(struct MultiQ* mq);
+// nextMQ finds the Queue with the highest priority.
+// returns a pointer to the front of this queue.
+struct Qnode* nextMQ(struct MultiQ* mq);
 
 // delNextMQ deletes the task in front from the Queue with the highest priority.
 // returns the address to the modified MultiQ
@@ -47,3 +48,7 @@ int sizeMQbyPriority(struct MultiQ* mq, int priority);
 
 // getQueueFromMQ returns pointer to Queue with priority p
 struct Queue* getQueueFromMQ(struct MultiQ* mq, int priority);
+
+
+// Print the entire MultiQ structure
+void printMQ(struct MultiQ* mq);
