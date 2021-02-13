@@ -2,11 +2,15 @@
 
 long long int HEAP_SPACE = 0;
 
-void* myalloc(long n) {
+void* myalloc(int size) {
     void* ptr = NULL;
-    ptr = malloc(n);
-    if (ptr != NULL)
-        HEAP_SPACE += n;
+    ptr = malloc(size);
+    if (ptr == NULL) {
+        printf("Error while allocating memory!\n");
+        return ptr;
+    }
+
+    HEAP_SPACE += size;
     return ptr;
 }
 

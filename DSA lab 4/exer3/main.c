@@ -13,32 +13,25 @@ struct linkedList *createCycle(struct linkedList *ll);
 
 int main(int argc, char const *argv[])
 {
-    long n = (long)1.5e6; // 1.5 million
+    long n = (long)15e6; //15 million
     struct linkedList *linlist = createList(n);
     // print heap space
-    printf("heap space: %lld\n", HEAP_SPACE);
+    printf("%lld\n", HEAP_SPACE);
 
     //new list with createCycle
     struct linkedList *linlist2 = createList(n);
     linlist2 = createCycle(linlist2);
 
-    // sanity check
-    // printListN(linlist, linlist->count);
-    // printListN(linlist2, linlist2->count); 
-
     //check testcyle
     printf("first list is cyclic? %d\n", testCyclic(linlist));
     printf("second list is cyclic? %d\n", testCyclic(linlist2));
 
-    myfree(linlist, linlist->count * sizeof(struct node));
-    myfree(linlist2, linlist2->count * sizeof(struct node));
+
 }
 
 struct linkedList *createList(long n)
 {
-    struct linkedList *templist = (struct linkedList *)myalloc(sizeof(struct linkedList));
-    templist->count = 0;
-    templist->first = NULL;
+    struct linkedList *templist = (struct linkedList *)myalloc(sizeof(struct linkedList *));
     srand(time(0));
     for (int i = 0; i < n; i++)
         insertFirst(templist, rand());
@@ -49,8 +42,6 @@ struct linkedList *createCycle(struct linkedList *ll)
 {
     srand(time(0));
     int toss = rand() % 2;
-    // only for testing testCycle
-    // toss = 1;
     if (toss)
     {
         int r = rand() % ll->count;

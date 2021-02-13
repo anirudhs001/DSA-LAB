@@ -13,25 +13,48 @@ struct linkedList *createCycle(struct linkedList *ll);
 
 int main(int argc, char const *argv[])
 {
-    long n = (long)15e6; //15 million
-    struct linkedList *linlist = createList(n);
-    // print heap space
-    printf("%lld\n", HEAP_SPACE);
+    // read 2 values:
+    // 1. N (int; size of linkedlists)
+    // 2. toPrint(optional bool; whether to print linkedlist or not)
+    if (!(argc >= 2 && argc <= 3))
+    {
+        printf("Usage: ./<filename> N [toPrint]\n");
+        printf("\tN: size of linkedlist,\n");
+        printf("\tPrint: (0/1)whether to print contents of linkedlist.\n");
+        return 1;
+    }
+    char *ch;
+    int toPrint = 0; // don't print by default
+    long n = strtol(argv[1], &ch, 10);
+    if (argc == 3)
+    {
+        toPrint = strtol(argv[2], &ch, 10);
+    }
 
-    //new list with createCycle
-    struct linkedList *linlist2 = createList(n);
-    linlist2 = createCycle(linlist2);
+    struct linkedList *linlist = createCycle(createList(n));
+    // print heap space
+    printf("heap space: %lld\n", HEAP_SPACE);
+
+    // sanity check
+    if (toPrint)
+    {
+        printListN(linlist, linlist->count);
+    }
 
     //check testcyle
-    printf("first list is cyclic? %d\n", testCyclic(linlist));
-    printf("second list is cyclic? %d\n", testCyclic(linlist2));
+    printf("list is cyclic? %d\n", testCyclic(linlist));
 
+    //free and check heap size
+    myfree(linlist, linlist->count * sizeof(struct node));
 
+    return 0;
 }
 
 struct linkedList *createList(long n)
 {
-    struct linkedList *templist = (struct linkedList *)myalloc(sizeof(struct linkedList *));
+    struct linkedList *templist = (struct linkedList *)myalloc(sizeof(struct linkedList));
+    templist->count = 0;
+    templist->first = NULL;
     srand(time(0));
     for (int i = 0; i < n; i++)
         insertFirst(templist, rand());
@@ -42,6 +65,8 @@ struct linkedList *createCycle(struct linkedList *ll)
 {
     srand(time(0));
     int toss = rand() % 2;
+    // only for testing testCycle
+    // toss = 1;
     if (toss)
     {
         int r = rand() % ll->count;
